@@ -1,6 +1,5 @@
 <template>
   <mdb-container>
-    
     <mdb-row>
       <mdb-col col="9">
         <h2 class="text-uppercase my-3">Today:</h2>
@@ -26,21 +25,24 @@
           It's going to be busy that today. You have
           <b>{{events.length}} events</b> today.
         </h6>
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="show" v-model="showMore"/>
+          <label class="custom-control-label" for="show">Show temp in Honolulu</label>
+        </div>
         <h1 class="my-3">
           <mdb-row>
-            <mdb-col col="3" class="text-center">
+            <mdb-col col="3" class="text-center" v-show="showMore">
               <mdb-icon far icon="sun" />
             </mdb-col>
-            <mdb-col col="9">Sunny</mdb-col>
+            <mdb-col col="9" v-show="showMore">Sunny</mdb-col>
           </mdb-row>
           <mdb-row>
-            <mdb-col col="3" class="text-center">
+            <mdb-col col="3" class="text-center" v-show="showMore">
               <mdb-icon icon="thermometer-three-quarters" />
             </mdb-col>
-            <mdb-col col="9">{{ info.main.temp }}°F</mdb-col>
+            <mdb-col col="9" v-show="showMore">{{ info.data.main.temp }}°F</mdb-col>
           </mdb-row>
         </h1>
-        <p>Current Temp in Honolulu</p>
       </mdb-col>
     </mdb-row>
 
@@ -78,7 +80,6 @@
           />
         </form>
         <mdb-btn color="info" @click.native="addEvent">Add</mdb-btn>
-        
       </mdb-modal-body>
     </mdb-modal>
     <!-- <mdb-btn color="info" @click.native="loadWeather">Load Weather</mdb-btn> -->
@@ -100,7 +101,7 @@ import {
   mdbInput,
   mdbTextarea
 } from "mdbvue";
-import * as axios from 'axios';
+import * as axios from "axios";
 import Event from "@/components/Event";
 export default {
   name: "App",
@@ -146,13 +147,16 @@ export default {
       ],
       info: null,
       modal: false,
-      newValues: []
+      newValues: [],
+      showMore: false
     };
   },
-  mounted () {
+  mounted() {
     axios
-      .get('https://api.openweathermap.org/data/2.5/weather?q=Honolulu&appid=639a38a8db7744d2e5a331c5b715a92e&units=imperial')
-      .then(response => (this.info = response.data))
+      .get(
+        "https://api.openweathermap.org/data/2.5/weather?q=Honolulu&appid=639a38a8db7744d2e5a331c5b715a92e&units=imperial"
+      )
+      .then(response => (this.info = response));
   },
   methods: {
     handleDelete(eventIndex) {
@@ -168,8 +172,7 @@ export default {
         location: this.newValues["location"],
         description: this.newValues["description"]
       });
-    },
-    
+    }
   }
 };
 </script>
