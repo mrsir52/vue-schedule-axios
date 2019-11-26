@@ -13,3 +13,11 @@ yarn.lock
 *.ntvs*
 *.njsproj
 *.sln
+.babelrc
+.editorconfig
+.eslintignore
+.eslintrc.js
+.postcssrc.js
+License.pdf
+package-lock.json
+package.json
