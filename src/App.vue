@@ -1,5 +1,6 @@
 <template>
   <mdb-container>
+    
     <mdb-row>
       <mdb-col col="9">
         <h2 class="text-uppercase my-3">Today:</h2>
@@ -36,14 +37,10 @@
             <mdb-col col="3" class="text-center">
               <mdb-icon icon="thermometer-three-quarters" />
             </mdb-col>
-            <mdb-col col="9">23°C</mdb-col>
+            <mdb-col col="9">{{ info.main.temp }}°F</mdb-col>
           </mdb-row>
         </h1>
-        <p>
-          Don't forget your sunglasses. Today will dry and sunny, becoming
-          warm in the afternoon with temperatures of between 20 and 25
-          degrees.
-        </p>
+        <p>Current Temp in Honolulu</p>
       </mdb-col>
     </mdb-row>
 
@@ -81,8 +78,10 @@
           />
         </form>
         <mdb-btn color="info" @click.native="addEvent">Add</mdb-btn>
+        
       </mdb-modal-body>
     </mdb-modal>
+    <!-- <mdb-btn color="info" @click.native="loadWeather">Load Weather</mdb-btn> -->
   </mdb-container>
 </template>
 
@@ -101,6 +100,7 @@ import {
   mdbInput,
   mdbTextarea
 } from "mdbvue";
+import * as axios from 'axios';
 import Event from "@/components/Event";
 export default {
   name: "App",
@@ -144,9 +144,15 @@ export default {
           description: "Project evalutation "
         }
       ],
+      info: null,
       modal: false,
       newValues: []
     };
+  },
+  mounted () {
+    axios
+      .get('https://api.openweathermap.org/data/2.5/weather?q=Honolulu&appid=639a38a8db7744d2e5a331c5b715a92e&units=imperial')
+      .then(response => (this.info = response.data))
   },
   methods: {
     handleDelete(eventIndex) {
@@ -162,7 +168,8 @@ export default {
         location: this.newValues["location"],
         description: this.newValues["description"]
       });
-    }
+    },
+    
   }
 };
 </script>
