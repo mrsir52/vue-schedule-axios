@@ -21,10 +21,10 @@
       </mdb-col>
       <mdb-col col="3">
         <h3 class="text-uppercase my-3">Schedule</h3>
-        <h6 class="my-3">
-          It's going to be busy that today. You have
+        <h5 class="my-3">
+           You have
           <b>{{events.length}} events</b> today.
-        </h6>
+        </h5>
         <div class="custom-control custom-checkbox">
           <input type="checkbox" class="custom-control-input" id="show" v-model="showMore"/>
           <label class="custom-control-label" for="show">Show temp in Honolulu</label>
